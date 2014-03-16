@@ -221,13 +221,13 @@ ReactGenerator.prototype.mainStylesheet = function mainStylesheet() {
 };
 
 ReactGenerator.prototype.jsFile = function jsFile() {
-  this.copy('jsx/main.jsx', 'app/jsx/main.jsx');
+  this.template('jsx/main.jsx', 'app/jsx/main.jsx');
+  this.copy('jsx/app.jsx', 'app/jsx/components/app.jsx');
 };
 
 ReactGenerator.prototype.app = function app() {
   this.mkdir('app/images');
   this.mkdir('app/scripts/vendor');
-  this.mkdir('app/jsx/components');
   this.mkdir('config');
   this.mkdir('test');
 };

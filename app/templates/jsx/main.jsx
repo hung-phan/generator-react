@@ -9,25 +9,29 @@ define('main', [], function() {
             'underscore': '../bower_components/underscore/underscore',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
             'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap'<% } %>
         },
-        shim: {<% if (includeReactAddons) %>
+        shim: {
+            'react': {
+                exports: 'React'
+            },<% if (includeReactAddons) { %>
             'react-with-addons': ['react'],<% } %>
             'bootstrap': ['jquery']
         }
     });
 
     requirejs([
-        'react',<% if (includeReactAddons) { %>
-        'react-with-addons',<% } %>
-        'jquery',<% if (includeModernizr) { %>
+        'jquery',
+        'react',
+        'components/app',<% if (includeReactAddons) { %>
+        'react-with-addons',<% } if (includeModernizr) { %>
         'modernizr',<% } %><% if (includeUnderscore) { %> 
         'underscore',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
         'bootstrap'<% } %>
-    ], function($) {
+    ], function($, React, app) {
         'use strict';
 
         $(document).ready(function() {
             /* App Module */
-        
+            React.renderComponent(<app />, document.getElementById('app'));
         });
     });
 });

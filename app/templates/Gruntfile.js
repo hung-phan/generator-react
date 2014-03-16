@@ -499,7 +499,6 @@ module.exports = function(grunt) {
         grunt.task.run([
             'clean:server',
             'concurrent:server',<% if (moduleLoader === 'browserify') { %>
-            
             <% } else { %>
             'react:app',<% } %>
             'concat',
@@ -556,6 +555,7 @@ module.exports = function(grunt) {
         'concurrent:dist',
         'autoprefixer',
         'cssmin',
+        'react:app',
         'requirejs',
         'copy:afterBuild',
         'clean:afterBuild',
