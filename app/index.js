@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var yeoman = require('yeoman-generator');
 
-var RequireJsGenerator = module.exports = function RequireJsGenerator(args, options, config) {
+var ReactGenerator = module.exports = function ReactGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
   // setup the test-framework property, Gruntfile template will need this
@@ -30,9 +30,9 @@ var RequireJsGenerator = module.exports = function RequireJsGenerator(args, opti
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 };
 
-util.inherits(RequireJsGenerator, yeoman.generators.Base);
+util.inherits(ReactGenerator, yeoman.generators.Base);
 
-RequireJsGenerator.prototype.askForCSSFramework = function askForCSSFramework() {
+ReactGenerator.prototype.askForCSSFramework = function askForCSSFramework() {
   var cb = this.async();
 
   // have Yeoman greet the user.
@@ -57,7 +57,29 @@ RequireJsGenerator.prototype.askForCSSFramework = function askForCSSFramework() 
   }.bind(this));
 };
 
-RequireJsGenerator.prototype.askForCSSFile = function askForCSSFile() {
+ReactGenerator.prototype.askForModuleLoader = function askForModuleLoader() {
+  var cb = this.async();
+
+  var prompts = [{
+    type: 'list',
+    name: 'moduleLoader',
+    message: 'What module loader would you like to include?',
+    choices: [{
+      name: 'Browserify',
+      value: 'browerify'
+    }, {
+      name: 'Requirejs',
+      value: 'requirejs'
+    }]
+  }];
+
+  this.prompt(prompts, function(props) {
+    this.moduleLoader = props.moduleLoader;
+    cb();
+  }.bind(this));
+}
+
+ReactGenerator.prototype.askForCSSFile = function askForCSSFile() {
   var cb = this.async();
 
   var prompts = [{
@@ -93,7 +115,7 @@ RequireJsGenerator.prototype.askForCSSFile = function askForCSSFile() {
   }.bind(this));
 };
 
-RequireJsGenerator.prototype.askForJSFile = function askForJSFile() {
+ReactGenerator.prototype.askForJSFile = function askForJSFile() {
   var cb = this.async();
 
   var prompts = [{
@@ -105,13 +127,17 @@ RequireJsGenerator.prototype.askForJSFile = function askForJSFile() {
       value: 'includeUnderscore',
       checked: false
     }, {
+      name: 'React Addons',
+      value: 'includeReactAddons',
+      checked: true
+    }, {
       name: 'Jasmine Testing framework',
       value: 'includeJasmine',
       checked: true
     }, {
       name: 'Modernizr',
       value: 'includeModernizr',
-      checked: false
+      checked: true
     }]
   }];
 
@@ -124,6 +150,7 @@ RequireJsGenerator.prototype.askForJSFile = function askForJSFile() {
     this.includeUnderscore = includeJS('includeUnderscore');
     this.includeJasmine = includeJS('includeJasmine');
     this.includeModernizr = includeJS('includeModernizr');
+    this.includeReactAddons = includeJS('includeReactAddons');
 
     if (this.includeJasmine) {
       this.testFramework = 'jasmine';
@@ -133,25 +160,25 @@ RequireJsGenerator.prototype.askForJSFile = function askForJSFile() {
   }.bind(this));
 };
 
-RequireJsGenerator.prototype.gruntfile = function gruntfile() {
+ReactGenerator.prototype.gruntfile = function gruntfile() {
   this.template('Gruntfile.js');
 };
 
-RequireJsGenerator.prototype.packageJSON = function packageJSON() {
+ReactGenerator.prototype.packageJSON = function packageJSON() {
   this.template('_package.json', 'package.json');
 };
 
-RequireJsGenerator.prototype.bower = function bower() {
+ReactGenerator.prototype.bower = function bower() {
   this.copy('bowerrc', '.bowerrc');
   this.template('_bower.json', 'bower.json');
 };
 
-RequireJsGenerator.prototype.jshint = function jshint() {
+ReactGenerator.prototype.jshint = function jshint() {
   this.copy('editorconfig', '.editorconfig');
   this.copy('jshintrc', '.jshintrc');
 };
 
-RequireJsGenerator.prototype.h5bp = function h5bp() {
+ReactGenerator.prototype.h5bp = function h5bp() {
   this.copy('favicon.ico', 'app/favicon.ico');
   this.copy('404.html', 'app/404.html');
   this.copy('robots.txt', 'app/robots.txt');
@@ -159,7 +186,7 @@ RequireJsGenerator.prototype.h5bp = function h5bp() {
   this.template('index.html', 'app/index.html');
 };
 
-RequireJsGenerator.prototype.mainStylesheet = function mainStylesheet() {
+ReactGenerator.prototype.mainStylesheet = function mainStylesheet() {
   var cssFile = 'style.scss',
     header = '',
     content = this.readFileAsString(path.join(this.sourceRoot(), 'main.scss'));
@@ -193,20 +220,19 @@ RequireJsGenerator.prototype.mainStylesheet = function mainStylesheet() {
   this.write('app/styles/' + cssFile, header + content);
 };
 
-RequireJsGenerator.prototype.jsFile = function jsFile() {
-  var prefix = 'app/scripts';
-  this.mkdir(prefix);
-  this.copy('scripts/main.js', prefix + '/main.js');
+ReactGenerator.prototype.jsFile = function jsFile() {
+  this.copy('jsx/main.jsx', 'app/jsx/main.jsx');
 };
 
-RequireJsGenerator.prototype.app = function app() {
+ReactGenerator.prototype.app = function app() {
   this.mkdir('app/images');
   this.mkdir('app/scripts/vendor');
+  this.mkdir('app/jsx/components');
   this.mkdir('config');
   this.mkdir('test');
 };
 
-RequireJsGenerator.prototype.install = function install() {
+ReactGenerator.prototype.install = function install() {
   if (this.options['skip-install']) {
     return;
   }

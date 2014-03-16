@@ -80,8 +80,17 @@ module.exports = function(grunt) {
             },
             compass: {
                 files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
+                tasks: ['compass:server', 'autoprefixer', 'concat']
+            },<% if (moduleLoader === 'browserify') { %>
+            browserify: {
+                files: ['<%%= yeoman.app %>/jsx/{,*/}*.jsx'],
+                tasks: ['browserify']
+            },<% } else { %>
+            react: {
+                files: ['<%%= yeoman.app %>/jsx/{,*/}*.jsx'],
+                tasks: ['react:app']
             },
+            <% } %>
             //scripts: {
             //files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
             //tasks: ['sass:server', 'autoprefixer', 'concat']
@@ -165,8 +174,32 @@ module.exports = function(grunt) {
                 }
             }
         },
-        <%
-        if (testFramework === 'jasmine') { %>
+        // react compilation task
+        react: {
+          app: {
+            files: [
+              {
+                expand: true,
+                cwd: '<%%=  yeoman.app %>/jsx/',
+                src: ['**/*.jsx'],
+                dest: '<%%=  yeoman.app %>/scripts/',
+                ext: '.js'
+              }
+            ]
+          }
+        },
+
+        <% if (moduleLoader === 'browserify') { %>
+            browserify: {
+              app: {
+                files: {
+                  '<%%= yeoman.app %>/scripts/main.js': ['<%%= yeoman.app %>/jsx/main.jsx']
+                },
+                options: {
+                  transform: ['reactify']
+                }
+              }
+        <% } if (testFramework === 'jasmine') { %>
             // Jasmine testing framework configuration options
             jasmine: {
                 pivotal: {
@@ -465,7 +498,10 @@ module.exports = function(grunt) {
 
         grunt.task.run([
             'clean:server',
-            'concurrent:server',
+            'concurrent:server',<% if (moduleLoader === 'browserify') { %>
+            
+            <% } else { %>
+            'react:app',<% } %>
             'concat',
             'autoprefixer',
             'connect:livereload',
