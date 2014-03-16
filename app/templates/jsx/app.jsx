@@ -13,7 +13,7 @@ define(['react'], function(React) {
         },
         render: function() {
             return (
-                <h1>{this.state.text}</h1>
+                <h1 onClick={this.clickMeUpdate}>{this.state.text}</h1>
             )
         }
     });
