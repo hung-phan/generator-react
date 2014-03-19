@@ -14,5 +14,5 @@ util.inherits(ComponentGenerator, yeoman.generators.NamedBase);
 
 ComponentGenerator.prototype.files = function files() {
   var relativePath = 'app/jsx/components/';
-  this.copy('component.js', relativePath + this.name + '.jsx');
+  this.template('component.js', relativePath + this.name + '.jsx');
 };

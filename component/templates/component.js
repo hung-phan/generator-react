@@ -1,6 +1,6 @@
 /*** @jsx React.DOM */
 define(['react'], function(React) {
-    return React.createClass({
+    var <%= name %> = React.createClass({
         getInitialState: function() {
             return {
                 text: 'Click Me!'
@@ -14,7 +14,8 @@ define(['react'], function(React) {
         render: function() {
             return (
                 <h1 onClick={this.clickMeUpdate}>{this.state.text}</h1>
-            )
+            );
         }
     });
+    return <%= name%>;
 });
