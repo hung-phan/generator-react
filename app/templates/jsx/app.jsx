@@ -1,5 +1,8 @@
 /*** @jsx React.DOM */
-define(['react'], function(React) {
+define([<% if (includeReactAddons) { %>
+    'react-with-addons', <% } else { %>
+    'react',<% } %>
+], function(React) {
     return React.createClass({
         getInitialState: function() {
             return {

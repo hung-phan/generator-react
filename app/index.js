@@ -222,7 +222,7 @@ ReactGenerator.prototype.mainStylesheet = function mainStylesheet() {
 
 ReactGenerator.prototype.jsFile = function jsFile() {
   this.template('jsx/main.jsx', 'app/jsx/main.jsx');
-  this.copy('jsx/app.jsx', 'app/jsx/components/app.jsx');
+  this.template('jsx/app.jsx', 'app/jsx/components/app.jsx');
 };
 
 ReactGenerator.prototype.app = function app() {
