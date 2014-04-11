@@ -9,8 +9,8 @@
     "jquery": "*",<% if (includeButtonCss) { %>
     "Buttons": "*",<% } %><% if (includeAnimateCss) { %>
     "animate-sass": "*",<% } %>
-    "react": "~0.9.0",
-    "requirejs": "*",
+    "react": "~0.9.0",<% if (moduleLoader === 'requirejs') { %>
+    "requirejs": "*",<% } %>
     "almond": "*",
     "modernizr": "*"
   }

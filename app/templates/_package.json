@@ -13,18 +13,22 @@
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-connect": "*",
     "grunt-contrib-clean": "*",<% if (moduleLoader === 'browserify') { %>
-    "grunt-browserify": "~2.0.0",
-    "reactify": "~0.8.1",<% } %>
-    "grunt-react": "~0.6.0",
+    "grunt-browserify": "*",
+    "debowerify": "*",
+    "react": "*",
+    "browsernizr": "*",
+    "envify": "*",
+    "reactify": "*",<% } else { %>
+    "grunt-bower-requirejs": "*",
+    "grunt-contrib-requirejs": "*",<% } %>
+    "grunt-react": "*",
     "grunt-contrib-htmlmin": "*",<% if (testFramework === 'jasmine') { %>
     "grunt-contrib-jasmine": "*",<% } %>
     "grunt-bower-install": "*",
     "grunt-contrib-imagemin": "*",
     "grunt-contrib-watch": "*",
-    "grunt-contrib-requirejs": "*",
     "grunt-rev": "*",
     "grunt-shell": "*",
-    "grunt-bower-requirejs": "*",
     "grunt-autoprefixer": "*",
     "grunt-usemin": "*",
     "grunt-modernizr": "*",

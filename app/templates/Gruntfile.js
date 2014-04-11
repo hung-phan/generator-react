@@ -89,11 +89,10 @@ module.exports = function(grunt) {
             react: {
                 files: ['<%%= yeoman.app %>/jsx/{,*/}*.jsx'],
                 tasks: ['react:app']
-            },
-            <% } %>
+            },<% } %>
             //scripts: {
-            //files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-            //tasks: ['sass:server', 'autoprefixer', 'concat']
+                //files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+                //tasks: ['sass:server', 'autoprefixer', 'concat']
             //},
             styles: {
                 files: ['<%%= yeoman.app %>/styles/{,*/}*.css'],
@@ -147,15 +146,13 @@ module.exports = function(grunt) {
                 '!<%%= yeoman.app %>/scripts/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
-        },
-
+        },<% if (moduleLoader === 'requirejs') { %>
         // Require js config
         bower: {
             target: {
                 rjsConfig: '<%%= yeoman.app %>/scripts/main.js'
             }
         },
-
         // require js
         requirejs: {
             dist: {
@@ -163,66 +160,59 @@ module.exports = function(grunt) {
                     dir: "<%%= yeoman.dist %>/scripts/",
                     baseUrl: '<%%= yeoman.app %>/scripts', // Directory to look for the require configuration file
                     mainConfigFile: '<%%= yeoman.app %>/scripts/main.js', // This is relative to the grunt file
-                    modules: [{
-                            name: 'main'
-                        } // Create a global bundle
-                    ],
+                    modules: [{ name: 'main' }],
                     preserveLicenseComments: false, // remove all comments
                     removeCombined: true, // remove files which aren't in bundles
                     optimize: 'uglify', // minify bundles with uglify 2
                     useStrict: true
                 }
             }
-        },
-        // react compilation task
+        },<% } else { %>
+        /*browserify task*/
+        browserify: {
+          app: {
+            files: { '<%%= yeoman.app %>/scripts/main.js': ['<%%= yeoman.app %>/jsx/main.jsx'] },
+            options: {
+              alias: [
+                './app/bower_components/jquery/dist/jquery.js:jquery',<% if (includeUnderscore) { %>
+                './app/bower_components/underscore/underscore.js:underscore',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
+                './app/bower_components/sass-bootstrap/dist/js/bootstrap.js:bootstrap'<% } %>
+              ],
+              transform: [require('grunt-react').browserify]
+            }
+          }
+        },<% } %>
+        /*react compilation task*/
         react: {
           app: {
-            files: [
-              {
+            files: [{
                 expand: true,
                 cwd: '<%%=  yeoman.app %>/jsx/',
                 src: ['**/*.jsx'],
                 dest: '<%%=  yeoman.app %>/scripts/',
                 ext: '.js'
-              }
-            ]
+              }]
           }
-        },
-
-        <% if (moduleLoader === 'browserify') { %>
-            browserify: {
-              app: {
-                files: {
-                  '<%%= yeoman.app %>/scripts/main.js': ['<%%= yeoman.app %>/jsx/main.jsx']
-                },
+        },<% if (testFramework === 'jasmine') { %>
+        // Jasmine testing framework configuration options
+        jasmine: {
+            pivotal: {
+                src: '<%%= yeoman.app %>/js/**/*.js',
                 options: {
-                  transform: ['reactify']
+                    specs: 'test/spec/*Spec.js',
+                    helpers: 'test/spec/*Helper.js'
                 }
-              }
-        <% } if (testFramework === 'jasmine') { %>
-            // Jasmine testing framework configuration options
-            jasmine: {
-                pivotal: {
-                    src: '<%%= yeoman.app %>/js/**/*.js',
-                    options: {
-                        specs: 'test/spec/*Spec.js',
-                        helpers: 'test/spec/*Helper.js'
-                    }
+            }
+        },<% } else { %>
+        // Mocha tesing framework configuration options
+        mocha: {
+            all: {
+                options: {
+                    run: true,
+                    urls: ['http://<%%= connect.test.options.hostname %>:<%%= connect.test.options.port %>/index.html']
                 }
-            },
-            <%
-        } else { %>
-            // Mocha tesing framework configuration options
-            mocha: {
-                all: {
-                    options: {
-                        run: true,
-                        urls: ['http://<%%= connect.test.options.hostname %>:<%%= connect.test.options.port %>/index.html']
-                    }
-                }
-            },
-            <%
-        } %>
+            }
+        },<% } %>
         // Compiles Sass to CSS and generates necessary files if requested
         compass: {
             options: {
@@ -255,7 +245,7 @@ module.exports = function(grunt) {
             dist: {
                  options: {
                     style: 'compressed'
-                }, 
+                },
                 files: [{
                     expand: true,
                     cwd: '<%%= yeoman.app %>/styles',
@@ -493,7 +483,6 @@ module.exports = function(grunt) {
             ]
         }
     });
-    grunt.registerTask('bundle-js', ['bower']);
 
     grunt.registerTask('serve', function(target) {
         if (target === 'dist') {
@@ -503,7 +492,7 @@ module.exports = function(grunt) {
         grunt.task.run([
             'clean:server',
             'concurrent:server',<% if (moduleLoader === 'browserify') { %>
-            <% } else { %>
+            'browserify',<% } else { %>
             'react:app',<% } %>
             'concat',
             'autoprefixer',
@@ -527,15 +516,15 @@ module.exports = function(grunt) {
         }
 
         grunt.task.run([
-            'connect:test', <%
-            if (testFramework === 'mocha') { %>
-                    'mocha' <%
-            } else if (testFramework === 'jasmine') { %>
-                    'jasmine' <%
-            } %>
+            'connect:test', <% if (testFramework === 'mocha') { %>
+            'mocha' <% } else if (testFramework === 'jasmine') { %>
+            'jasmine' <% } %>
         ]);
     });
-
+    <% if (moduleLoader === 'requirejs') { %>
+    /*bower task for bundle dependencies for requirejs*/
+    grunt.registerTask('bundle-js', ['bower']);
+    /*requirejs bundle task for build project from src app*/
     grunt.registerTask('requirejs-bundle', function() {
         function replaceBetween(string, start, end, what) {
             return string.substring(0, start) + what + string.substring(end);
@@ -551,20 +540,21 @@ module.exports = function(grunt) {
             mainjs = replaceBetween(mainjs, first, second, content);
         }
         grunt.file.write('dist/scripts/main.js', mainjs);
-    });
+    });<% } %>
 
     grunt.registerTask('build', [
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
-        'cssmin',
+        'cssmin',<% if (moduleLoader === 'browserify') { %>
+        'browserify',
+        'uglify',<% } else { %>
         'react:app',
         'requirejs',
         'copy:afterBuild',
         'clean:afterBuild',
-        'requirejs-bundle',
-        // 'uglify',
+        'requirejs-bundle',<% } %>
         'copy:dist',
         'modernizr',
         // 'rev',

@@ -66,7 +66,7 @@ ReactGenerator.prototype.askForModuleLoader = function askForModuleLoader() {
     message: 'What module loader would you like to include?',
     choices: [{
       name: 'Browserify',
-      value: 'browerify'
+      value: 'browserify'
     }, {
       name: 'Requirejs',
       value: 'requirejs'
@@ -227,7 +227,7 @@ ReactGenerator.prototype.jsFile = function jsFile() {
 
 ReactGenerator.prototype.app = function app() {
   this.mkdir('app/images');
-  this.mkdir('app/scripts/vendor');
+  if (this.moduleLoader === 'requirejs') { this.mkdir('app/scripts/vendor'); }
   this.mkdir('config');
   this.mkdir('test');
 };
@@ -237,18 +237,20 @@ ReactGenerator.prototype.install = function install() {
     return;
   }
 
-  var done = this.async();
+  var done = this.async(), self = this;
   this.installDependencies({
     skipMessage: this.options['skip-install-message'],
     skipInstall: this.options['skip-install'],
     callback: function() {
-      var projectDir = process.cwd() + '/app';
-      fs.exists(projectDir + '/scripts/vendor/require.js', function(exists) {
-        if (!exists) {
-          fs.createReadStream(projectDir + '/bower_components/requirejs/require.js')
-            .pipe(fs.createWriteStream(projectDir + '/scripts/vendor/require.js'));
-        }
-      });
+      if (self.moduleLoader === 'requirejs') {
+        var projectDir = process.cwd() + '/app';
+        fs.exists(projectDir + '/scripts/vendor/require.js', function(exists) {
+          if (!exists) {
+            fs.createReadStream(projectDir + '/bower_components/requirejs/require.js')
+              .pipe(fs.createWriteStream(projectDir + '/scripts/vendor/require.js'));
+          }
+        });
+      }
     }
   });
 };

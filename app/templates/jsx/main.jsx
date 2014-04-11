@@ -1,4 +1,23 @@
-/** @jsx React.DOM */
+/** @jsx React.DOM */<% if (moduleLoader === 'browserify') { %>
+'use strict';<% if (includeModernizr) { %>
+var Modernizr = require('browsernizr');<% } %>
+var $ = require('jquery');
+window.jQuery = $;<% if (includeUnderscore) { %>
+var underscore = require('underscore');
+window._ = underscore;<% } %>
+var bootstrap = require('bootstrap');
+/*react library*/<% if (includeReactAddons) { %>
+var React = require('react/addons');<% } else { %>
+var React = require('react');<% } %>
+window.React = React;
+
+/*require component for main application*/
+var app = require('./components/app.jsx');
+/*main application logic*/
+$(document).ready(function() {
+    /* App Module */
+    React.renderComponent(<app />, document.getElementById('app'));
+});<% } else { %>
 define('main', [], function() {
     requirejs.config({
         paths: {<% if (includeModernizr) { %>
@@ -15,6 +34,9 @@ define('main', [], function() {
             },<% } else { %>
             'react': {
                 exports: 'React'
+            },<% } %><% if (includeUnderscore) { %>
+            'underscore': {
+                exports: '_'
             },<% } %>
             'bootstrap': ['jquery']
         }
@@ -25,7 +47,7 @@ define('main', [], function() {
         'react-with-addons', <% } else { %>
         'react',<% } %>
         'components/app',<% if (includeModernizr) { %>
-        'modernizr',<% } %><% if (includeUnderscore) { %> 
+        'modernizr',<% } %><% if (includeUnderscore) { %>
         'underscore',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
         'bootstrap'<% } %>
     ], function($, React, app) {
@@ -36,4 +58,4 @@ define('main', [], function() {
             React.renderComponent(<app />, document.getElementById('app'));
         });
     });
-});
+});<% } %>
