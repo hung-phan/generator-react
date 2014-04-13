@@ -1,6 +1,6 @@
 /** @jsx React.DOM */<% if (moduleLoader === 'browserify') { %>
 'use strict';<% if (includeModernizr) { %>
-var Modernizr = require('browsernizr');<% } %>
+require('browsernizr');<% } %>
 var $ = require('jquery');
 window.jQuery = $;<% if (includeUnderscore) { %>
 var underscore = require('underscore');
