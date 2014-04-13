@@ -452,7 +452,7 @@ module.exports = function(grunt) {
         modernizr: {
             dist: {
                 devFile: '<%%= yeoman.app %>/bower_components/modernizr/modernizr.js',
-                outputFile: '<%%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
+                outputFile: '<%%= yeoman.dist %>/scripts/vendor/modernizr.js',
                 files: {
                     src: [
                         '<%%= yeoman.dist %>/scripts/{,*/}*.js',
@@ -555,8 +555,8 @@ module.exports = function(grunt) {
         'copy:afterBuild',
         'clean:afterBuild',
         'requirejs-bundle',<% } %>
-        'copy:dist',
-        'modernizr',
+        'copy:dist',<% if (moduleLoader === 'requirejs') { %>
+        'modernizr',<% } %>
         // 'rev',
         'usemin',
         'htmlmin'
