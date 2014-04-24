@@ -123,8 +123,8 @@ ReactGenerator.prototype.askForJSFile = function askForJSFile() {
     name: 'jsFile',
     message: 'What utils would you like to include?',
     choices: [{
-      name: 'Underscore.js',
-      value: 'includeUnderscore',
+      name: 'lodash.js',
+      value: 'includeLodash',
       checked: false
     }, {
       name: 'React Addons',
@@ -147,7 +147,7 @@ ReactGenerator.prototype.askForJSFile = function askForJSFile() {
     }
 
     // JS
-    this.includeUnderscore = includeJS('includeUnderscore');
+    this.includeLodash = includeJS('includeLodash');
     this.includeJasmine = includeJS('includeJasmine');
     this.includeModernizr = includeJS('includeModernizr');
     this.includeReactAddons = includeJS('includeReactAddons');
@@ -221,6 +221,7 @@ ReactGenerator.prototype.mainStylesheet = function mainStylesheet() {
 };
 
 ReactGenerator.prototype.jsFile = function jsFile() {
+  if (this.moduleLoader === 'requirejs') { this.template('jsx/config.jsx', 'app/jsx/config.jsx'); }
   this.template('jsx/main.jsx', 'app/jsx/main.jsx');
   this.template('jsx/app.jsx', 'app/jsx/components/app.jsx');
 };

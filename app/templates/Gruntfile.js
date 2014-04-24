@@ -150,7 +150,7 @@ module.exports = function(grunt) {
         // Require js config
         bower: {
             target: {
-                rjsConfig: '<%%= yeoman.app %>/scripts/main.js'
+                rjsConfig: '<%%= yeoman.app %>/scripts/config.js'
             }
         },
         // require js
@@ -159,7 +159,7 @@ module.exports = function(grunt) {
                 options: {
                     dir: "<%%= yeoman.dist %>/scripts/",
                     baseUrl: '<%%= yeoman.app %>/scripts', // Directory to look for the require configuration file
-                    mainConfigFile: '<%%= yeoman.app %>/scripts/main.js', // This is relative to the grunt file
+                    mainConfigFile: '<%%= yeoman.app %>/scripts/config.js', // This is relative to the grunt file
                     modules: [{ name: 'main' }],
                     preserveLicenseComments: false, // remove all comments
                     removeCombined: true, // remove files which aren't in bundles
@@ -173,10 +173,9 @@ module.exports = function(grunt) {
           app: {
             files: { '<%%= yeoman.app %>/scripts/main.js': ['<%%= yeoman.app %>/jsx/main.jsx'] },
             options: {
-              alias: [
-                './app/bower_components/jquery/dist/jquery.js:jquery',<% if (includeUnderscore) { %>
-                './app/bower_components/underscore/underscore.js:underscore',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
-                './app/bower_components/sass-bootstrap/dist/js/bootstrap.js:bootstrap'<% } %>
+              alias: [<% if (includeLodash) { %>
+                './app/bower_components/lodash/dist/lodash.js:lodash',<% } %>
+                './app/bower_components/jquery/dist/jquery.js:jquery'
               ],
               transform: [require('grunt-react').browserify]
             }
@@ -516,9 +515,9 @@ module.exports = function(grunt) {
         }
 
         grunt.task.run([
-            'connect:test', <% if (testFramework === 'mocha') { %>
-            'mocha' <% } else if (testFramework === 'jasmine') { %>
-            'jasmine' <% } %>
+            'connect:test',<% if (testFramework === 'mocha') { %>
+            'mocha'<% } else if (testFramework === 'jasmine') { %>
+            'jasmine'<% } %>
         ]);
     });
     <% if (moduleLoader === 'requirejs') { %>
@@ -526,20 +525,16 @@ module.exports = function(grunt) {
     grunt.registerTask('bundle-js', ['bower']);
     /*requirejs bundle task for build project from src app*/
     grunt.registerTask('requirejs-bundle', function() {
+        /*replace bower_components path in app/scripts/main.js file to vendor/*/
         function replaceBetween(string, start, end, what) {
             return string.substring(0, start) + what + string.substring(end);
         };
+        var indexHTML = grunt.file.read('dist/index.html');
+        indexHTML = replaceBetween(indexHTML,
+            indexHTML.indexOf('<!--build script-->'),
+            indexHTML.indexOf('<!--end build script-->'), '');
+        grunt.file.write('dist/index.html', indexHTML);
 
-        var mainjs = grunt.file.read('dist/scripts/main.js'),
-            first, second, content;
-
-        while (mainjs.indexOf('../bower_components') != -1) {
-            first = mainjs.indexOf('../bower_components');
-            second = mainjs.indexOf('"', first);
-            content = 'vendor/' + mainjs.substring(first, second).split('/').pop();
-            mainjs = replaceBetween(mainjs, first, second, content);
-        }
-        grunt.file.write('dist/scripts/main.js', mainjs);
     });<% } %>
 
     grunt.registerTask('build', [
@@ -553,10 +548,10 @@ module.exports = function(grunt) {
         'react:app',
         'requirejs',
         'copy:afterBuild',
-        'clean:afterBuild',
-        'requirejs-bundle',<% } %>
+        'clean:afterBuild',<% } %>
         'copy:dist',<% if (moduleLoader === 'requirejs') { %>
-        'modernizr',<% } %>
+        'requirejs-bundle',<% } %>
+        //'modernizr',
         // 'rev',
         'usemin',
         'htmlmin'
