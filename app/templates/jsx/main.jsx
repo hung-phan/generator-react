@@ -9,7 +9,6 @@ var bootstrap = require('./../bower_components/sass-bootstrap/dist/js/bootstrap.
 /*react library*/<% if (includeReactAddons) { %>
 var React = require('react/addons');<% } else { %>
 var React = require('react');<% } %>
-window.React = React;
 
 /*require component for main application*/
 var app = require('./components/app.jsx');
