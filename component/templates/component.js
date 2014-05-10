@@ -1,5 +1,5 @@
 /*** @jsx React.DOM */
-'use strict';<% if (moduleLoader === 'browserify') { %>
+'use strict';<% if (moduleLoader === 'browserify') { %><% if (includeReactAddons) { %>
 /*React with addons*/
 var React = require('react/addons');<% } else { %>
 /*React.js*/
