@@ -131,6 +131,10 @@ ReactGenerator.prototype.askForJSFile = function askForJSFile() {
       value: 'includeReactAddons',
       checked: true
     }, {
+      name: 'Director (routing library for mounting different components)',
+      value: 'includeDirector',
+      checked: true
+    }, {
       name: 'Jasmine Testing framework',
       value: 'includeJasmine',
       checked: true
@@ -149,6 +153,7 @@ ReactGenerator.prototype.askForJSFile = function askForJSFile() {
     // JS
     this.includeLodash = includeJS('includeLodash');
     this.includeJasmine = includeJS('includeJasmine');
+    this.includeDirector = includeJS('includeDirector');
     this.includeModernizr = includeJS('includeModernizr');
     this.includeReactAddons = includeJS('includeReactAddons');
 
