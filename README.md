@@ -55,7 +55,7 @@ $ grunt build
 ##Routing
 
 For control different components and their data logic, the generator uses [flatiron/director] (https://github.com/flatiron/director)
-to control routing and binding to corresponding components.
+to control routing and binding of corresponding components.
 
 ## License
 
