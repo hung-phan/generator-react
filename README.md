@@ -15,7 +15,7 @@ For the reason that this name has been registered by another developer, you have
 Make sure you clone the project
 
 ```
-$ git clone git@github.com:hung-phan/generator-react.git 
+$ git clone git@github.com:hung-phan/generator-react.git
 $ cd generator-react
 $ npm link
 ```
@@ -51,6 +51,11 @@ To build files for production
 ```
 $ grunt build
 ```
+
+##Routing
+
+For control different components and their data logic, the generator uses [flatiron/director] (https://github.com/flatiron/director)
+to control routing and binding to corresponding components.
 
 ## License
 
