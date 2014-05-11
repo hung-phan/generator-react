@@ -8,8 +8,8 @@
     "modernizr": "*",<% } %>
     "jquery": "*",<% if (includeButtonCss) { %>
     "Buttons": "*",<% } %><% if (includeAnimateCss) { %>
-    "animate-sass": "*",<% } %><% if (includeDirector) { %>
-    "director",<% } %>
+    "animate-sass": "*",
+    "director": "*",
     "react": "~0.9.0",<% if (moduleLoader === 'requirejs') { %>
     "requirejs": "*",<% } if (moduleLoader === 'requirejs') { %>
     "modernizr": "*",<% } %>
