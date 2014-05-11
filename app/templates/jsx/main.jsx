@@ -18,6 +18,8 @@ var app = require('./components/app.jsx');
 /*main application logic*/
 $(document).ready(function() {
     /* App Module */
+
+    /*doc for routing https://github.com/flatiron/director*/
     var routes = {
         '/': function() {
             React.renderComponent(<app /> , document.getElementById('route'));
@@ -41,6 +43,7 @@ require([
     $(document).ready(function() {
         /* App Module */
 
+        /*doc for routing https://github.com/flatiron/director*/
         var routes = {
             '/': function() {
                 React.renderComponent(<app /> , document.getElementById('route'));
