@@ -64,13 +64,10 @@ module.exports = function(grunt) {
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
-            js: {
-                files: ['<%%= yeoman.app %>/scripts/{,*/}*.js'],
-                tasks: ['jshint'],
-                options: {
-                    livereload: true
-                }
-            },
+            //js: {
+                //files: ['<%%= yeoman.app %>/scripts/{,*/}*.js'],
+                //tasks: ['jshint']
+            //},
             jstest: {
                 files: ['test/spec/{,*/}*.js'],
                 tasks: ['test:watch']
@@ -88,7 +85,10 @@ module.exports = function(grunt) {
             },<% } else { %>
             react: {
                 files: ['<%%= yeoman.app %>/jsx/{,*/}*.jsx'],
-                tasks: ['react:app']
+                tasks: ['react:app'],
+                options: {
+                    livereload: true
+                }
             },<% } %>
             //scripts: {
                 //files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
@@ -431,6 +431,7 @@ module.exports = function(grunt) {
                     dest: '<%%= yeoman.dist %>/scripts/vendor',
                     src: [
                         '*.js',
+                        '!config.js',
                         '!main.js'
                     ]
                 }]
