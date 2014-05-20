@@ -34,7 +34,9 @@ Other dependencies
 
 3. Compass (gem install compass)
 
-4. [Browserify] (browserify.org)
+4. SASS (gem install sass)
+
+5. [Browserify] (browserify.org)
 
 ## Usage
 
