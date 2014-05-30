@@ -10,9 +10,8 @@
     "Buttons": "*",<% } %><% if (includeAnimateCss) { %>
     "animate-sass": "*",<% } %>
     "director": "*",
-    "react": "~0.9.0",<% if (moduleLoader === 'requirejs') { %>
-    "requirejs": "*",<% } if (moduleLoader === 'requirejs') { %>
-    "modernizr": "*",<% } %>
+    "react": "*",<% if (moduleLoader === 'requirejs') { %>
+    "requirejs": "*",<% } %>
     "almond": "*"
   }
 }

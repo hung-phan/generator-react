@@ -234,21 +234,29 @@ ReactGenerator.prototype.app = function app() {
 };
 
 ReactGenerator.prototype.install = function install() {
-  if (this.options['skip-install']) {
-    return;
-  }
+  if (this.options['skip-install']) { return; }
 
   var done = this.async(), self = this;
+  var self = this;
   this.installDependencies({
     skipMessage: this.options['skip-install-message'],
     skipInstall: this.options['skip-install'],
     callback: function() {
+      var projectDir = process.cwd() + '/app';
       if (self.moduleLoader === 'requirejs') {
-        var projectDir = process.cwd() + '/app';
         fs.exists(projectDir + '/scripts/vendor/require.js', function(exists) {
           if (!exists) {
             fs.createReadStream(projectDir + '/bower_components/requirejs/require.js')
               .pipe(fs.createWriteStream(projectDir + '/scripts/vendor/require.js'));
+          }
+        });
+      }
+      if (self.includeModernizr) {
+        //copy modernizr
+        fs.exists(projectDir + '/scripts/vendor/modernizr.js', function(exists) {
+          if (!exists) {
+            fs.createReadStream(projectDir + '/bower_components/modernizr/modernizr.js')
+            .pipe(fs.createWriteStream(projectDir + '/scripts/vendor/modernizr.js'));
           }
         });
       }

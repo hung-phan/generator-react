@@ -1,7 +1,6 @@
 requirejs.config({
     baseUrl: './scripts',
-    paths: {<% if (includeModernizr) { %>
-        'modernizr': '../bower_components/modernizr/modernizr',<% } if (includeReactAddons) { %>
+    paths: {<% if (includeReactAddons) { %>
         'react-with-addons': '../bower_components/react/react-with-addons',<% } else { %>
         'react': '../bower_components/react/react', <% } %>
         'director': '../bower_components/director/build/director',
@@ -10,18 +9,10 @@ requirejs.config({
         'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap'<% } %>
     },
     shim: {<% if (includeReactAddons) { %>
-        'react-with-addons': {
-            exports: 'React'
-        },<% } else { %>
-        'react': {
-            exports: 'React'
-        },<% } %><% if (includeLodash) { %>
-        'lodash': {
-            exports: '_'
-        },<% } %>
-        'director': {
-            exports: 'Router'
-        },
+        'react-with-addons': { exports: 'React' },<% } else { %>
+        'react': { exports: 'React' },<% } %><% if (includeLodash) { %>
+        'lodash': { exports: '_' },<% } %>
+        'director': { exports: 'Router' },
         'bootstrap': ['jquery']
     }
 });

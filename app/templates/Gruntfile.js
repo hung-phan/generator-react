@@ -81,14 +81,13 @@ module.exports = function(grunt) {
             },<% if (moduleLoader === 'browserify') { %>
             browserify: {
                 files: ['<%%= yeoman.app %>/jsx/{,*/}*.jsx'],
-                tasks: ['browserify']
+                tasks: ['browserify'],
+                options: { livereload: true }
             },<% } else { %>
             react: {
                 files: ['<%%= yeoman.app %>/jsx/{,*/}*.jsx'],
-                tasks: ['react:app'],
-                options: {
-                    livereload: true
-                }
+                tasks: ['react'],
+                options: { livereload: true }
             },<% } %>
             //scripts: {
                 //files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
@@ -147,12 +146,10 @@ module.exports = function(grunt) {
                 'test/spec/{,*/}*.js'
             ]
         },<% if (moduleLoader === 'requirejs') { %>
+
         // Require js config
-        bower: {
-            target: {
-                rjsConfig: '<%%= yeoman.app %>/scripts/config.js'
-            }
-        },
+        bower: { target: { rjsConfig: '<%%= yeoman.app %>/scripts/config.js' } },
+
         // require js
         requirejs: {
             dist: {
@@ -168,7 +165,8 @@ module.exports = function(grunt) {
                 }
             }
         },<% } else { %>
-        /*browserify task*/
+
+        //browserify task
         browserify: {
           app: {
             files: { '<%%= yeoman.app %>/scripts/main.js': ['<%%= yeoman.app %>/jsx/main.jsx'] },
@@ -181,7 +179,8 @@ module.exports = function(grunt) {
             }
           }
         },<% } %>
-        /*react compilation task*/
+
+        //react compilation task
         react: {
           app: {
             files: [{
@@ -193,6 +192,7 @@ module.exports = function(grunt) {
               }]
           }
         },<% if (testFramework === 'jasmine') { %>
+
         // Jasmine testing framework configuration options
         jasmine: {
             pivotal: {
@@ -203,6 +203,7 @@ module.exports = function(grunt) {
                 }
             }
         },<% } else { %>
+
         // Mocha tesing framework configuration options
         mocha: {
             all: {
@@ -212,6 +213,7 @@ module.exports = function(grunt) {
                 }
             }
         },<% } %>
+
         // Compiles Sass to CSS and generates necessary files if requested
         compass: {
             options: {
@@ -239,35 +241,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        /*
-        sass: {
-            dist: {
-                 options: {
-                    style: 'compressed'
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%%= yeoman.app %>/styles',
-                    src: ['*.scss'],
-                    dest: '.tmp/styles',
-                    ext: '.css'
-                }]
-            },
-            server: {
-                options: {
-                    debugInfo: true,
-                    style: 'expanded'
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%%= yeoman.app %>/styles',
-                    src: ['*.scss'],
-                    dest: '.tmp/styles',
-                    ext: '.css'
-                }]
-            }
-        },
-        */
+
         // Add vendor prefixed styles
         autoprefixer: {
             options: {
@@ -288,12 +262,7 @@ module.exports = function(grunt) {
         },
 
         // Automatically inject Bower components into the HTML file
-        'bower-install': {
-            app: {
-                html: '<%%= yeoman.app %>/index.html',
-                ignorePath: '<%%= yeoman.app %>/'
-            }
-        },
+        'bower-install': { app: { html: '<%%= yeoman.app %>/index.html', ignorePath: '<%%= yeoman.app %>/' } },
 
         // Renames files for browser caching purposes
         rev: {
@@ -313,17 +282,13 @@ module.exports = function(grunt) {
         // concat, minify and revision files. Creates configurations in memory so
         // additional tasks can operate on them
         useminPrepare: {
-            options: {
-                dest: '<%%= yeoman.dist %>'
-            },
+            options: { dest: '<%%= yeoman.dist %>' },
             html: '<%%= yeoman.app %>/index.html'
         },
 
         // Performs rewrites based on rev and the useminPrepare configuration
         usemin: {
-            options: {
-                assetsDirs: ['<%%= yeoman.dist %>']
-            },
+            options: { assetsDirs: ['<%%= yeoman.dist %>'] },
             html: ['<%%= yeoman.dist %>/{,*/}*.html'],
             css: ['<%%= yeoman.dist %>/styles/{,*/}*.css']
         },
@@ -337,9 +302,7 @@ module.exports = function(grunt) {
                     src: '{,*/}*.{gif,jpeg,jpg,png}',
                     dest: '<%%= yeoman.dist %>/images'
                 }],
-                options: {
-                    cache: false
-                }
+                options: { cache: false }
 
             }
         },
@@ -422,21 +385,6 @@ module.exports = function(grunt) {
                     ]
                 }]
             },
-            afterBuild: {
-                files: [{
-                    expand: true,
-                    flatten: true,
-                    dot: true,
-                    cwd: '<%%= yeoman.dist %>/scripts',
-                    dest: '<%%= yeoman.dist %>/scripts/vendor',
-                    src: [
-                        '*.js',
-                        '!config.js',
-                        '!main.js'
-                    ]
-                }]
-
-            },
             styles: {
                 expand: true,
                 dot: true,
@@ -468,7 +416,6 @@ module.exports = function(grunt) {
         concurrent: {
             server: [
                 'compass:server',
-                //'sass:server',
                 'copy:styles'
             ],
             test: [
@@ -476,7 +423,6 @@ module.exports = function(grunt) {
             ],
             dist: [
                 'compass',
-                //'sass:dist',
                 'copy:styles',
                 'imagemin',
                 'svgmin'
@@ -493,7 +439,7 @@ module.exports = function(grunt) {
             'clean:server',
             'concurrent:server',<% if (moduleLoader === 'browserify') { %>
             'browserify',<% } else { %>
-            'react:app',<% } %>
+            'react',<% } %>
             'concat',
             'autoprefixer',
             'connect:livereload',
@@ -520,13 +466,14 @@ module.exports = function(grunt) {
             'mocha'<% } else if (testFramework === 'jasmine') { %>
             'jasmine'<% } %>
         ]);
-    });
-    <% if (moduleLoader === 'requirejs') { %>
-    /*bower task for bundle dependencies for requirejs*/
+    });<% if (moduleLoader === 'requirejs') { %>
+
+    //bower task for bundle dependencies for requirejs
     grunt.registerTask('bundle-js', ['bower']);
-    /*requirejs bundle task for build project from src app*/
+
+    //requirejs bundle task for build project from src app
     grunt.registerTask('requirejs-bundle', function() {
-        /*replace bower_components path in app/scripts/main.js file to vendor/*/
+        //replace bower_components path in app/scripts/main.js file to vendor
         function replaceBetween(string, start, end, what) {
             return string.substring(0, start) + what + string.substring(end);
         };
@@ -546,13 +493,12 @@ module.exports = function(grunt) {
         'cssmin',<% if (moduleLoader === 'browserify') { %>
         'browserify',
         'uglify',<% } else { %>
-        'react:app',
+        'react',
         'requirejs',
-        'copy:afterBuild',
         'clean:afterBuild',<% } %>
         'copy:dist',<% if (moduleLoader === 'requirejs') { %>
-        'requirejs-bundle',<% } %>
-        //'modernizr',
+        'requirejs-bundle',<% } %><% if (includeModernizr) { %>
+        'modernizr',<% } %>
         // 'rev',
         'usemin',
         'htmlmin'

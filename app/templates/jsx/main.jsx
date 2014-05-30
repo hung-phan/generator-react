@@ -1,6 +1,5 @@
 /** @jsx React.DOM */<% if (moduleLoader === 'browserify') { %>
-'use strict';<% if (includeModernizr) { %>
-require('browsernizr');<% } %>
+'use strict';
 var $ = require('jquery');
 window.jQuery = $;<% if (includeLodash) { %>
 var lodash = require('lodash');
@@ -33,8 +32,7 @@ require([
     'react-with-addons',<% } else { %>
     'react',<% } %>
     'components/app',
-    'director',<% if (includeModernizr) { %>
-    'modernizr',<% } %><% if (includeLodash) { %>
+    'director',<% if (includeLodash) { %>
     'lodash',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
     'bootstrap'<% } %>
 ], function($, React, app) {
