@@ -362,7 +362,10 @@ module.exports = function(grunt) {
         uglify: {
             dist: {
                 files: [{
-                    src: '<%%= yeoman.dist %>/scripts/**/*.js', // source files mask
+                    src: [
+                        '<%%= yeoman.dist %>/scripts/**/*.js',
+                        '!<%%= yeoman.dist %>/scripts/vendor/modernizr.js'
+                    ], // source files mask
                     expand: true // allow dynamic building
                 }]
             }
