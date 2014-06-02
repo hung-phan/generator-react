@@ -160,7 +160,7 @@ module.exports = function(grunt) {
                     modules: [{ name: 'main' }],
                     preserveLicenseComments: false, // remove all comments
                     removeCombined: true, // remove files which aren't in bundles
-                    optimize: 'uglify', // minify bundles with uglify 2
+                    optimize: 'none', // minify bundles with uglify 2
                     useStrict: true
                 }
             }
@@ -348,7 +348,7 @@ module.exports = function(grunt) {
                     ]
                 }
             }
-        },
+        },<% if (moduleLoader === 'browserify') { %>
         uglify: {
             dist: {
                 files: [{
@@ -358,7 +358,15 @@ module.exports = function(grunt) {
                     flatten: true // remove all unnecessary nesting
                 }]
             }
-        },
+        },<% } else { %>
+        uglify: {
+            dist: {
+                files: [{
+                    src: '<%%= yeoman.dist %>/scripts/**/*.js', // source files mask
+                    expand: true // allow dynamic building
+                }]
+            }
+        },<% } %>
         concat: {
             dist: {
                 src: ['.tmp/styles/{,*/}*.css'],
@@ -491,14 +499,14 @@ module.exports = function(grunt) {
         'concurrent:dist',
         'autoprefixer',
         'cssmin',<% if (moduleLoader === 'browserify') { %>
-        'browserify',
-        'uglify',<% } else { %>
+        'browserify',<% } else { %>
         'react',
         'requirejs',
         'clean:afterBuild',<% } %>
         'copy:dist',<% if (moduleLoader === 'requirejs') { %>
         'requirejs-bundle',<% } %><% if (includeModernizr) { %>
         'modernizr',<% } %>
+        'uglify',
         // 'rev',
         'usemin',
         'htmlmin'

@@ -253,6 +253,7 @@ ReactGenerator.prototype.install = function install() {
       }
       if (self.includeModernizr) {
         //copy modernizr
+        self.mkdir('app/scripts/vendor');
         fs.exists(projectDir + '/scripts/vendor/modernizr.js', function(exists) {
           if (!exists) {
             fs.createReadStream(projectDir + '/bower_components/modernizr/modernizr.js')
