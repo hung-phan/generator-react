@@ -87,7 +87,7 @@ ReactGenerator.prototype.askForCSSFile = function askForCSSFile() {
     name: 'cssFile',
     message: 'What css library would you like to include?',
     choices: [{
-      name: 'Buttons for SASS and Compass by Alexwolfe',
+      name: 'SASS Button by Alexwolfe',
       value: 'includeButtonCss',
       checked: false
     }, {
@@ -196,7 +196,7 @@ ReactGenerator.prototype.mainStylesheet = function mainStylesheet() {
   }
   if (this.includeFontAwesome) {
     header += "$fa-font-path: '../bower_components/font-awesome/fonts';\n" +
-      "@import '../bower_components/font-awesome/scss/font-awesome';\n";
+              "@import '../bower_components/font-awesome/scss/font-awesome';\n";
   }
   if (this.includeButtonCss) {
     header += "@import '../bower_components/Buttons/scss/buttons';\n"
@@ -228,7 +228,11 @@ ReactGenerator.prototype.jsFile = function jsFile() {
 
 ReactGenerator.prototype.app = function app() {
   this.mkdir('app/images');
-  if (this.moduleLoader === 'requirejs') { this.mkdir('app/scripts/vendor'); }
+  if (this.moduleLoader === 'requirejs') {
+    this.mkdir('app/scripts/vendor');
+  } else {
+    this.template('browserify.config.js', 'browserify.config.js');
+  }
   this.mkdir('config');
   this.mkdir('test');
 };

@@ -1,11 +1,4 @@
-// Generated on 2014-01-14 using generator-webapp 0.4.6
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 module.exports = function(grunt) {
 
@@ -14,6 +7,9 @@ module.exports = function(grunt) {
 
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
+
+    // include browserify alias to config file
+    var browserifyAliasConfig = require('./browserify.config.js');
 
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -171,10 +167,7 @@ module.exports = function(grunt) {
           app: {
             files: { '<%%= yeoman.app %>/scripts/main.js': ['<%%= yeoman.app %>/jsx/main.jsx'] },
             options: {
-              alias: [<% if (includeLodash) { %>
-                './app/bower_components/lodash/dist/lodash.js:lodash',<% } %>
-                './app/bower_components/jquery/dist/jquery.js:jquery'
-              ],
+              alias: browserifyAliasConfig,
               transform: [require('grunt-react').browserify]
             }
           }

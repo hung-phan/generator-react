@@ -4,16 +4,16 @@ var $ = require('jquery');
 window.jQuery = $;<% if (includeLodash) { %>
 var lodash = require('lodash');
 window._ = lodash;<% } %>
-var bootstrap = require('./../bower_components/sass-bootstrap/dist/js/bootstrap');
+require('bootstrap');
 /*react library*/<% if (includeReactAddons) { %>
 var React = require('react/addons');<% } else { %>
 var React = require('react');<% } %>
 
 /*require director to handle routing on client-side*/
-var director = require('./../bower_components/director/build/director');
+var director = require('director');
 
 /*require component for main application*/
-var app = require('./components/app.jsx');
+var app = require('./components/app');
 /*main application logic*/
 $(document).ready(function() {
     /* App Module */
