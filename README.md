@@ -38,6 +38,9 @@ Other dependencies
 
 5. [Browserify] (browserify.org)
 
+## Browserify alias
+Alias for grunt browserify task are declared in __browserify.config.js__ with the format of __path:alias__.
+
 ## Usage
 
 The version of generator uses SASS Bootstrap as its main theme. If you want to use Compass framework, make sure that you
