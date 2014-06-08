@@ -241,7 +241,6 @@ ReactGenerator.prototype.install = function install() {
   if (this.options['skip-install']) { return; }
 
   var done = this.async(), self = this;
-  var self = this;
   this.installDependencies({
     skipMessage: this.options['skip-install-message'],
     skipInstall: this.options['skip-install'],
