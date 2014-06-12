@@ -13,7 +13,7 @@ var React = require('react');<% } %>
 var director = require('director');
 
 /*require component for main application*/
-var app = require('./components/app.jsx');
+var app = require('./app/app.jsx');
 /*main application logic*/
 $(document).ready(function() {
     /* App Module */
@@ -31,7 +31,7 @@ require([
     'jquery',<% if (includeReactAddons) { %>
     'react-with-addons',<% } else { %>
     'react',<% } %>
-    'components/app',
+    'app/app',
     'director',<% if (includeLodash) { %>
     'lodash',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
     'bootstrap'<% } %>
