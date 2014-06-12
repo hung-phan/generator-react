@@ -16,9 +16,7 @@ module.exports = React.createClass({
         });
     },
     render: function() {
-        return (
-            <h1 onClick={this.clickMeUpdate}>{this.state.text}</h1>
-        )
+        return (@@include('_app.tpl.jsx'));
     }
 });<% } else { %>
 define([<% if (includeReactAddons) { %>
@@ -37,9 +35,7 @@ define([<% if (includeReactAddons) { %>
             });
         },
         render: function() {
-            return (
-                <h1 onClick={this.clickMeUpdate}>{this.state.text}</h1>
-            )
+            return (@@include('_app.tpl.jsx'));
         }
     });
 });<% } %>

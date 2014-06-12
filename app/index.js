@@ -223,7 +223,8 @@ ReactGenerator.prototype.mainStylesheet = function mainStylesheet() {
 ReactGenerator.prototype.jsFile = function jsFile() {
   if (this.moduleLoader === 'requirejs') { this.template('jsx/config.jsx', 'app/jsx/config.jsx'); }
   this.template('jsx/main.jsx', 'app/jsx/main.jsx');
-  this.template('jsx/app.jsx', 'app/jsx/components/app.jsx');
+  this.template('jsx/app.jsx', 'app/jsx/app/app.jsx');
+  this.copy('jsx/_app.tpl.jsx', 'app/jsx/app/_app.tpl.jsx');
 };
 
 ReactGenerator.prototype.app = function app() {

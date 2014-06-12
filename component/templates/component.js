@@ -7,7 +7,7 @@ var React = require('react');<% } %>
 module.exports = React.createClass({
     getInitialState: function() {
         return {
-            text: 'Click Me!'
+            text: 'Template for <%= name %>'
         };
     },
     clickMeUpdate: function(e) {
@@ -16,9 +16,7 @@ module.exports = React.createClass({
         });
     },
     render: function() {
-        return (
-            <h1 onClick={this.clickMeUpdate}>{this.state.text}</h1>
-        )
+        return (@@include('_<%= name %>.tpl.jsx'));
     }
 });<% } else { %>
 define([<% if (includeReactAddons) { %>
@@ -28,7 +26,7 @@ define([<% if (includeReactAddons) { %>
     var <%= name %> = React.createClass({
         getInitialState: function() {
             return {
-                text: 'Click Me!'
+                text: 'Template for <%= name %>'
             };
         },
         clickMeUpdate: function(e) {
@@ -37,9 +35,7 @@ define([<% if (includeReactAddons) { %>
             });
         },
         render: function() {
-            return (
-                <h1 onClick={this.clickMeUpdate}>{this.state.text}</h1>
-            );
+            return (@@include('_<%= name %>.tpl.jsx'));
         }
     });
     return <%= name %>;
