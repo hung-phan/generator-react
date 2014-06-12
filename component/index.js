@@ -60,7 +60,7 @@ ComponentGenerator.prototype.askForJSFile = function askForJSFile() {
 };
 
 ComponentGenerator.prototype.files = function files() {
-  var relativePath = 'app/jsx/components/';
+  var relativePath = 'app/jsx/' + this.name + '/';
   this.template('component.js', relativePath + this.name + '.jsx');
   this.template('_component.tpl.js', relativePath + '_' + this.name + '.tpl.jsx');
 };
