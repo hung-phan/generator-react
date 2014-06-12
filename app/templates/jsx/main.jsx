@@ -17,11 +17,12 @@ var app = require('./app/app.jsx');
 /*main application logic*/
 $(document).ready(function() {
     /* App Module */
+    var routeDOMElement = document.getElementById('route');
 
     /*doc for routing https://github.com/flatiron/director*/
     var routes = {
         '/': function() {
-            React.renderComponent(<app /> , document.getElementById('route'));
+            React.renderComponent(<app /> , routeDOMElement);
         }
     };
     var routerHandler = new director.Router(routes);
@@ -40,11 +41,12 @@ require([
 
     $(document).ready(function() {
         /* App Module */
+        var routeDOMElement = document.getElementById('route');
 
         /*doc for routing https://github.com/flatiron/director*/
         var routes = {
             '/': function() {
-                React.renderComponent(<app /> , document.getElementById('route'));
+                React.renderComponent(<app /> , routeDOMElement);
             }
         };
         var routerHandler = new Router(routes);
