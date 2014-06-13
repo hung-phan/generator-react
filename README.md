@@ -14,10 +14,8 @@ $ npm install -g yo
 For the reason that this name has been registered by another developer, you have to link the npm package manually.
 Make sure you clone the project
 
-```
-$ git clone git@github.com:hung-phan/generator-react.git
-$ cd generator-react
-$ npm link
+```bash
+$ npm -g install hung-phan/generator-react
 ```
 
 Finally, initiate the generator:
