@@ -9,7 +9,8 @@
     "jquery": "~2.1.1",<% if (includeButtonCss) { %>
     "Buttons": "*",<% } %><% if (includeAnimateCss) { %>
     "animate-sass": "*",<% } %>
-    "director": "*",
+    "director": "*",<% if (includeFluxxor) { %>
+    "fluxxor": "*",<% } %>
     "react": "*",<% if (moduleLoader === 'requirejs') { %>
     "requirejs": "*",<% } %>
     "almond": "*"

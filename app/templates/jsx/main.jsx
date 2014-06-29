@@ -12,6 +12,9 @@ var React = require('react');<% } %>
 /*require director to handle routing on client-side*/
 var director = require('director');
 
+/*require fluxxor*/
+var fluxxor = require('fluxxor');
+
 /*require component for main application*/
 var app = require('./app/app.jsx');
 /*main application logic*/
@@ -33,7 +36,8 @@ require([
     'react-with-addons',<% } else { %>
     'react',<% } %>
     'app/app',
-    'director',<% if (includeLodash) { %>
+    'director',<% if (includeFluxxor) { %>
+    'fluxxor',<% } %><% if (includeLodash) { %>
     'lodash',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
     'bootstrap'<% } %>
 ], function($, React, app) {

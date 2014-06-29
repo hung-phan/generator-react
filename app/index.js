@@ -131,6 +131,10 @@ ReactGenerator.prototype.askForJSFile = function askForJSFile() {
       value: 'includeReactAddons',
       checked: true
     }, {
+      name: 'Fluxxor',
+      value: 'includeFluxxor',
+      checked: false
+    }, {
       name: 'Jasmine Testing framework',
       value: 'includeJasmine',
       checked: true
@@ -151,6 +155,7 @@ ReactGenerator.prototype.askForJSFile = function askForJSFile() {
     this.includeJasmine = includeJS('includeJasmine');
     this.includeModernizr = includeJS('includeModernizr');
     this.includeReactAddons = includeJS('includeReactAddons');
+    this.includeFluxxor = includeJS('includeFluxxor');
 
     if (this.includeJasmine) {
       this.testFramework = 'jasmine';
