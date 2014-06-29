@@ -13,7 +13,7 @@ var React = require('react');<% } %>
 var director = require('director');
 
 /*require fluxxor*/
-var fluxxor = require('fluxxor');
+var Fluxxor = require('fluxxor');
 
 /*require component for main application*/
 var app = require('./app/app.jsx');
@@ -37,7 +37,7 @@ require([
     'react',<% } %>
     'app/app',
     'director',<% if (includeFluxxor) { %>
-    'fluxxor',<% } %><% if (includeLodash) { %>
+    'Fluxxor',<% } %><% if (includeLodash) { %>
     'lodash',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
     'bootstrap'<% } %>
 ], function($, React, app) {
