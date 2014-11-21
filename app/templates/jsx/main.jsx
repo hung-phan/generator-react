@@ -25,7 +25,7 @@ $(document).ready(function() {
     /*doc for routing https://github.com/flatiron/director*/
     var routes = {
         '/': function() {
-            React.renderComponent(<app /> , routeDOMElement);
+            React.render(<app /> , routeDOMElement);
         }
     };
     var routerHandler = new director.Router(routes);
@@ -50,7 +50,7 @@ require([
         /*doc for routing https://github.com/flatiron/director*/
         var routes = {
             '/': function() {
-                React.renderComponent(<app /> , routeDOMElement);
+                React.render(<app /> , routeDOMElement);
             }
         };
         var routerHandler = new Router(routes);
