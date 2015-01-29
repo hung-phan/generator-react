@@ -6,7 +6,7 @@ requirejs.config({
         'director': '../bower_components/director/build/director',<% if (includeFluxxor) { %>
         'Fluxxor': '../bower_components/fluxxor/build/fluxxor',<% } %>
         'jquery': '../bower_components/jquery/dist/jquery',<% if (includeLodash) { %>
-        'lodash': '../bower_components/lodash/dist/lodash',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
+        'lodash': '../bower_components/lodash/lodash',<% } %><% if (cssFramework === 'SASSBootstrap') { %>
         'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap'<% } %>
     },
     shim: {<% if (includeReactAddons) { %>
